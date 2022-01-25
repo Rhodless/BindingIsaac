@@ -1,7 +1,7 @@
 package me.rhodless;
 
 import com.sun.awt.AWTUtilities;
-import jdk.nashorn.internal.runtime.linker.Bootstrap;
+import me.rhodless.panel.BoostrapPanel;
 import me.rhodless.swinger.Animator;
 
 import javax.swing.*;

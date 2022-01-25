@@ -1,4 +1,6 @@
-package me.rhodless;
+package me.rhodless.panel;
+
+import me.rhodless.Game;
 
 import javax.swing.*;
 import java.awt.*;

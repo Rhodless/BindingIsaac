@@ -1,11 +1,16 @@
 package me.rhodless;
 
+import me.rhodless.swinger.Animator;
+import me.rhodless.swinger.STexturedButton;
+import me.rhodless.swinger.SwingerEvent;
+import sun.font.TrueTypeFont;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.*;
-import java.io.IOException;
+import java.io.*;
 
 public class Game {
 
@@ -19,6 +24,9 @@ public class Game {
 
     public static final Color DISABLED_COLOR = getTransparentInstance(Color.GRAY, 50);
 
+    public static final BufferedImage EMPTY = getResourceIgnorePath("/me/rhodless/resources/empty.png");
+
+    public static Font FONT;
 
     public static void setResourcePath(String resourcePath) {
         Game.resourcePath = resourcePath.endsWith("/") ? resourcePath.substring(0, resourcePath.length() - 1) : resourcePath;
@@ -115,6 +123,22 @@ public class Game {
     public static void fillFullsizedRect(Graphics g, JComponent component, Color color) {
         g.setColor(color);
         g.fillRect(0, 0, component.getWidth(), component.getHeight());
+    }
+
+    public static void doWindowCheck(SwingerEvent event, STexturedButton quitButton, STexturedButton windowButton, STexturedButton hideButton) {
+        if(event.getSource() == quitButton) {
+            Animator.fadeOutFrame(GameFrame.getInstance(), 2, () -> System.exit(0));
+        }
+        if(event.getSource() == windowButton) {
+            if(GameFrame.getInstance().getExtendedState() == Frame.MAXIMIZED_BOTH) {
+                GameFrame.getInstance().setExtendedState(Frame.NORMAL);
+            } else {
+                GameFrame.getInstance().setExtendedState(Frame.MAXIMIZED_BOTH);
+            }
+        }
+        if(event.getSource() == hideButton) {
+            GameFrame.getInstance().setState(JFrame.ICONIFIED);
+        }
     }
 
 }
