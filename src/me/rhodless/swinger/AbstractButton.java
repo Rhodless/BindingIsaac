@@ -33,8 +33,8 @@ public abstract class AbstractButton extends JComponent implements MouseListener
 
     public void mouseEntered(MouseEvent e) {
         this.hover = true;
-        this.
-                repaint();
+        this.repaint();
+
     }
 
     public void mouseExited(MouseEvent e) {
