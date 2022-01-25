@@ -2,27 +2,28 @@ package me.rhodless;
 
 import com.sun.awt.AWTUtilities;
 import me.rhodless.binding.Character;
+import me.rhodless.handler.KeyHandler;
 import me.rhodless.panel.WaitingPanel;
 import me.rhodless.swinger.Animator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class GameFrame extends JFrame {
 
     private static GameFrame instance;
     private JPanel gamePanel;
+    private KeyHandler keyHandler;
 
     public GameFrame() throws IOException, FontFormatException {
         instance = this;
         GameFrame.getInstance().setUndecorated(true);
         Game.setResourcePath("/me/rhodless/resources/");
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        Game.FONT = Font.createFont(Font.TRUETYPE_FONT, new File("src/me/rhodless/resources/font.ttf"));
+        Game.FONT = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/me/rhodless/resources/font.ttf"));
 
         AWTUtilities.setWindowOpacity(this, 0.0F);
+        GameFrame.getInstance().addKeyListener(keyHandler = new KeyHandler());
 
         this.setTitle("The Binding of Isaac");
         this.setSize(928, 536);
@@ -64,5 +65,9 @@ public class GameFrame extends JFrame {
         this.remove(gamePanel);
         this.gamePanel = gamePanel;
         this.setContentPane(gamePanel);
+    }
+
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
     }
 }

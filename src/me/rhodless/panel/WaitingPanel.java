@@ -9,6 +9,8 @@ import me.rhodless.swinger.SwingerEvent;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WaitingPanel extends WindowJPanel {
 
@@ -41,6 +43,8 @@ public class WaitingPanel extends WindowJPanel {
         super.onEvent(event);
 
         if(event.getSource() == playButton) {
+            playButton.setTexture(Game.getResource("loading.png"));
+            playButton.setTextureHover(Game.getResource("loading.png"));
 
             GameFrame.getInstance().setGamePanel(new ChooseCharacterPanel());
             GameFrame.getInstance().setVisible(true);

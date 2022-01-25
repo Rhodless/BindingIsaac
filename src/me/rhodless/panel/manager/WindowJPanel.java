@@ -42,7 +42,6 @@ public abstract class WindowJPanel extends JPanel implements SwingerEventListene
         add(hideButton);
 
         this.addComponentListener(new FrameListen());
-
     }
 
 

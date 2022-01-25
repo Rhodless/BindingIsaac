@@ -87,9 +87,6 @@ public class ChooseCharacterPanel extends WindowJPanel {
         add(secondCharacter);
         add(name);
         add(ready);
-
-        System.out.println(name.getLocation());
-
     }
 
 

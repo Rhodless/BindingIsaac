@@ -1,30 +1,40 @@
 package me.rhodless.panel;
 
+import me.rhodless.Game;
+import me.rhodless.GameData;
 import me.rhodless.GameFrame;
+import me.rhodless.handler.KeyHandler;
 import me.rhodless.panel.manager.WindowJPanel;
 import me.rhodless.swinger.SwingerEvent;
-import me.rhodless.swinger.SwingerEventListener;
 
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Arrays;
 
-public class InGamePanel extends WindowJPanel implements SwingerEventListener, Runnable {
+public class InGamePanel extends WindowJPanel implements Runnable {
 
-    Thread gameThread;
+    private final Thread thread;
+    private final KeyHandler keyHandler;
+    private final Image background;
+    private int playerX = 928 / 2 - 32;
+    private int playerY = 536 / 2 - 32;
+    private int playerSpeed = 2;
 
     public InGamePanel() {
         super();
+
+        this.background = Game.getResource("ingame.png");
+
+        System.out.println(Arrays.toString(Arrays.stream(this.getKeyListeners()).toArray()));
+        keyHandler = GameFrame.getInstance().getKeyHandler();
+
         this.addComponentListener(new FrameListen());
-        this.setBackground(Color.black);
 
-        startGameThread();
+        thread = new Thread(this);
+        thread.start();
     }
 
-    public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
 
     @Override
     public void onEvent(SwingerEvent event) {
@@ -35,25 +45,40 @@ public class InGamePanel extends WindowJPanel implements SwingerEventListener, R
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
+        g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
 
-        g2.setColor(Color.white);
-        g2.fillRect(100, 100, 48, 48);
-        g2.dispose();
-    }
+        Dimension screenSize = GameFrame.getInstance().getSize();
 
-    public void update() {
+        g.drawImage(GameData.getCharacter().getImage(),
+                (int) (screenSize.getWidth() / (928.0F / playerX)),
+                (int) (screenSize.getHeight() / (536.0F / playerY)),
+                (int) (screenSize.getWidth() / 14.5),
+                (int) (screenSize.getHeight() / 8.375),
+                null);
 
     }
 
     @Override
     public void run() {
-
-        while (gameThread != null) {
+        while (!thread.isInterrupted()) {
             update();
             repaint();
         }
+    }
 
+    public void update() {
+        if (keyHandler.upPressed) {
+            playerY -= playerSpeed;
+        }
+        if (keyHandler.downPressed) {
+            playerY += playerSpeed;
+        }
+        if (keyHandler.leftPressed) {
+            playerX -= playerSpeed;
+        }
+        if (keyHandler.rightPressed) {
+            playerX += playerSpeed;
+        }
     }
 
     private class FrameListen implements ComponentListener {

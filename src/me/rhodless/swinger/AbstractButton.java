@@ -20,6 +20,7 @@ public abstract class AbstractButton extends JComponent implements MouseListener
     }
 
     public void mouseClicked(MouseEvent e) {
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     public void mousePressed(MouseEvent e) {
@@ -29,12 +30,13 @@ public abstract class AbstractButton extends JComponent implements MouseListener
         if (isEnabled())
             for (SwingerEventListener eventListener : this.eventListeners)
                 eventListener.onEvent(new SwingerEvent(this, 0));
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
     }
 
     public void mouseEntered(MouseEvent e) {
         this.hover = true;
         this.repaint();
-
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     public void mouseExited(MouseEvent e) {
